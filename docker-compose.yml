@@ -20,8 +20,8 @@ services:
       - myNetwork
     ports:
       - 1337:80
-    depends_on:
-      - react
+    # depends_on:
+    #   - react
       # - node
       # - python
     volumes:
