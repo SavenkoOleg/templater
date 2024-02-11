@@ -12,3 +12,4 @@ ADD *.json ./
 # этот каталог целиком. да и потом могут возникнуть проблемы.
 ADD ./public ./public
 ADD ./src ./src
+ADD ./node_modules ./node_modules

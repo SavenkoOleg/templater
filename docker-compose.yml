@@ -49,6 +49,7 @@ services:
     volumes:
       - ./react/public/:/usr/src/app/public/
       - ./react/src/:/usr/src/app/src/
+      - ./react/node_modules/:/usr/src/app/node_modules/
     command: npm start
     depends_on:
       - node
