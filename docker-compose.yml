@@ -20,10 +20,10 @@ services:
       - myNetwork
     ports:
       - 1337:80
-    # depends_on:
-    #   - react
-    #   - node
-    #   - python
+    depends_on:
+      - react
+      # - node
+      # - python
     volumes:
       - ./data_storage/:/home/src/app/media
 
@@ -40,21 +40,21 @@ services:
   #     - myNetwork
 
 
-  # react:
-  #   build: ./react
-  #   container_name: react
-  #   restart: always
-  #   ports:
-  #     - 3100:3000
-  #   volumes:
-  #     - ./react/public/:/usr/src/app/public/
-  #     - ./react/src/:/usr/src/app/src/
-  #   command: npm start
-  #   depends_on:
-  #     - node
-  #     - python
-  #   networks:
-  #     - myNetwork
+  react:
+    build: ./react
+    container_name: react
+    restart: always
+    ports:
+      - 3100:3000
+    volumes:
+      - ./react/public/:/usr/src/app/public/
+      - ./react/src/:/usr/src/app/src/
+    command: npm start
+    depends_on:
+      - node
+      - python
+    networks:
+      - myNetwork
 
 networks:
   myNetwork:
