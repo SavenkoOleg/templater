@@ -1,0 +1,7 @@
+FROM node:18-alpine as build
+
+WORKDIR /usr/src/app
+
+ADD ./server ./
+
+RUN npm install
