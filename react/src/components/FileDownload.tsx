@@ -5,7 +5,7 @@ import { TemplateContext } from "../context/TemplateContext";
 
 const FileDownload = () => {
   const {outputFilename, setStep} = useContext(TemplateContext)
-  const url = "http://localhost:1337/media/" + outputFilename;
+  const url = "http://194.87.147.163:1337/media/" + outputFilename;
 
   
   return (
