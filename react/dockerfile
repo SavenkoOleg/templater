@@ -10,6 +10,6 @@ ADD *.json ./
 # Копируем каталоги public и src. 
 # можно воспользоваться командой COPY . . но если вы синхронизировали node_modules, то будете ждать пока залётся 
 # этот каталог целиком. да и потом могут возникнуть проблемы.
-# ADD ./public ./public
-# ADD ./src ./src
-# ADD ./node_modules ./node_modules
+ADD ./public ./public
+ADD ./src ./src
+ADD ./node_modules ./node_modules
