@@ -50,9 +50,9 @@ services:
       - ./react/public/:/usr/src/app/public/
       - ./react/src/:/usr/src/app/src/
     command: npm start
-    depends_on:
-      - node
-      - python
+    # depends_on:
+    #   - node
+    #   - python
     networks:
       - myNetwork
 
