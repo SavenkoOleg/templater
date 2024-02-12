@@ -1,11 +1,10 @@
-import React  from 'react';
 import './App.css';
 import General from './components/General';
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import {TemplateContext} from "./context/TemplateContext"
 
 function App() {
-  const {step, setStep} = useContext(TemplateContext)
+  const {step} = useContext(TemplateContext)
 
   return (
     <div className="App">
