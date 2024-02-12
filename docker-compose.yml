@@ -1,17 +1,17 @@
 version: '3.8'
 
 services:
-  node:
-    build: ./server_upload
-    container_name: server_upload
-    restart: always
-    ports:
-      - 4100:4000
-    volumes:
-       - ./data_storage/:/usr/src/app/data_storage/
-    command: npm start
-    networks:
-      - myNetwork
+  # node:
+  #   build: ./server_upload
+  #   container_name: server_upload
+  #   restart: always
+  #   ports:
+  #     - 4100:4000
+  #   volumes:
+  #      - ./data_storage/:/usr/src/app/data_storage/
+  #   command: npm start
+  #   networks:
+  #     - myNetwork
 
   nginx:
     build: ./nginx
@@ -20,42 +20,43 @@ services:
       - myNetwork
     ports:
       - 1337:80
-    depends_on:
-      - react
-      - node
-      - python
+    # depends_on:
+    #   - react
+    #   - node
+    #   - python
     volumes:
       - ./data_storage/:/home/src/app/media
+      - ./react/build/:/home/src/app/build
 
-  python:
-    build: ./templ
-    container_name: templ
-    restart: always
-    ports:
-      - 5100:5000
-    volumes:
-       - ./data_storage/:/usr/src/app/data_storage/
-    command: uwsgi --socket 0.0.0.0:5000 --protocol=http -w wsgi:app
-    networks:
-      - myNetwork
+  # python:
+  #   build: ./templ
+  #   container_name: templ
+  #   restart: always
+  #   ports:
+  #     - 5100:5000
+  #   volumes:
+  #      - ./data_storage/:/usr/src/app/data_storage/
+  #   command: uwsgi --socket 0.0.0.0:5000 --protocol=http -w wsgi:app
+  #   networks:
+  #     - myNetwork
 
 
-  react:
-    build: ./react
-    container_name: react
-    restart: always
-    ports:
-      - 3100:3000
-    volumes:
-      - ./react/public/:/usr/src/app/public/
-      - ./react/src/:/usr/src/app/src/
-      - ./react/node_modules/:/usr/src/app/node_modules/
-    command: npm start
-    depends_on:
-      - node
-      - python
-    networks:
-      - myNetwork
+  # react:
+  #   build: ./react
+  #   container_name: react
+  #   restart: always
+  #   ports:
+  #     - 3100:3000
+  #   volumes:
+  #     - ./react/public/:/usr/src/app/public/
+  #     - ./react/src/:/usr/src/app/src/
+  #     - ./react/node_modules/:/usr/src/app/node_modules/
+  #   command: npm start
+  #   depends_on:
+  #     - node
+  #     - python
+  #   networks:
+  #     - myNetwork
 
 networks:
   myNetwork:
