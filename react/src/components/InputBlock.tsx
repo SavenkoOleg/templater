@@ -22,7 +22,7 @@ const InputBlock = ({item, index, addParam}:TemplBlockInterface) => {
 
   return (
     <div className="form-group row" key={index}>
-      <label className="col-sm-4 col-form-label">{item}</label>
+      <label className="col-sm-4 col-form-label" style={{textAlign: "left"}}>{item}</label>
         <div className="col-sm-8">
           <input 
             type="text"
