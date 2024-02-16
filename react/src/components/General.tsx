@@ -1,11 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 
-
 import FileUpload from "./FileUpload";
 import TableTemplate from "./TableTamplate";
 import FileDownload from "./FileDownload";
-import { useContext } from "react";
-import { TemplateContext} from '../context/TemplateContext'
 
 type GeneralInterface = {
   step: number
@@ -14,7 +11,7 @@ type GeneralInterface = {
 const General = ({step}:GeneralInterface) => {
   return (
     // <TemplateState>
-        <div className="container" style={{ width: "600px" }}>
+        <div className="container" style={step === 1 ? { width: "700px" } : { width: "600px" }}>
           <div className="my-3">
             {step === 0 && <h4>Загрузите файл </h4>}
             {step === 1 && <h4>Укажите значения для замены</h4>}

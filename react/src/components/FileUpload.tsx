@@ -25,16 +25,16 @@ const FileUpload: React.FC = () => {
       setProgress(Math.round((100 * event.loaded) / event.total));
     })
       .then((response) => {
-        setMessage(response.data.message);
+        setMessage("Файл готов к работе!");
         setFilename(response.data.result);
       })
       .catch((err) => {
         setProgress(0);
 
-        if (err.response && err.response.data && err.response.data.message) {
-          setMessage(err.response.data.message);
+        if (err.response && err.response.data && err.response.data.error) {
+          setMessage(err.response.data.error);
         } else {
-          setMessage("Could not upload the File!");
+          setMessage("Упс... произошла какая-то ошибка...");
         }
 
         setCurrentFile(undefined);
@@ -46,6 +46,13 @@ const FileUpload: React.FC = () => {
       .then((response) => {
         setParams(response.data.result)
         setStep()
+      })
+      .catch((err) => {
+        if (err.response && err.response.data && err.response.data.error) {
+          setMessage(err.response.data.error);
+        } else {
+          setMessage("Упс... произошла какая-то ошибка...");
+        }
       })
       .catch(() => {
       });
@@ -93,7 +100,7 @@ const FileUpload: React.FC = () => {
       )}
 
       <button
-        className="btn btn-success btn-lg mr-30"
+        className="btn btn-success btn-lg mr-10"
         onClick={scan}
         hidden={!inputFilename}
         >
