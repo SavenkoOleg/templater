@@ -5,7 +5,7 @@ import { TemplateContext } from "../context/TemplateContext";
 
 const FileDownload = () => {
   const {outputFilename, setStep} = useContext(TemplateContext)
-  const url = "http://194.87.147.163:1337/media/" + outputFilename;
+  const url = process.env.REACT_APP_PPOTOCOL + "://" + process.env.REACT_APP_HOST + ":" + process.env.REACT_APP_PORT + "/" + process.env.REACT_APP_STATIC + "/" + outputFilename;
 
   
   return (
@@ -14,7 +14,7 @@ const FileDownload = () => {
         <a className="btn btn-link" href={url} download>Скачать готовый файл</a>
       </div>
       <button
-        className="btn btn-success btn-lg"
+        className="btn btn-success btn-lg mr-30"
         onClick={setStep}
         >
         Начать заново

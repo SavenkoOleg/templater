@@ -15,4 +15,4 @@ RUN python3 -m venv venv
 
 RUN source venv/bin/activate
 
-RUN pip install wheel Flask docxtpl uwsgi redis rq python-dotenv
+RUN pip install wheel rq

@@ -10,6 +10,7 @@ interface ITemplateContext {
   setOutputFilename: (filename:string) => void
   setStep: () => void
   setParams: (params:string[]) => void
+  StepBack: () => void
 }
 
 export const TemplateContext = createContext<ITemplateContext>({
@@ -22,6 +23,7 @@ export const TemplateContext = createContext<ITemplateContext>({
   setOutputFilename: () => {},
   setParams: () => {},
   setStep: () => {},
+  StepBack: () => {},
 })
 
 export const TemplateState = ({ children }: {children: React.ReactNode}) => {
@@ -46,10 +48,18 @@ export const TemplateState = ({ children }: {children: React.ReactNode}) => {
 
   const setStep = () => {
     setStepST(prev => prev < 2 ? prev + 1 : 0)
+    if (step === 2) {
+      setFileName("")
+    }
+  }
+
+  const StepBack = () => {
+    setStepST(0)
+    setFileName("")
   }
 
   return (
-    <TemplateContext.Provider value={{ inputFilename, fileUpload, paramsScan,step,outputFilename,  setStep, setFilename, setParams, setOutputFilename }}>
+    <TemplateContext.Provider value={{ inputFilename, fileUpload, paramsScan,step,outputFilename,  setStep, setFilename, setParams, setOutputFilename, StepBack }}>
       { children }
     </TemplateContext.Provider>
   )

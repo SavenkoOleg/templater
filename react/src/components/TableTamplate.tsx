@@ -12,7 +12,7 @@ type ParamInterface = {
 
 const TableTemplate = () => {
 
-  const {inputFilename, paramsScan, setOutputFilename, setStep} = useContext(TemplateContext)
+  const {inputFilename, paramsScan, setOutputFilename, setStep, StepBack} = useContext(TemplateContext)
 
   const [paramsData, setParamsData] = useState<ParamInterface[]>([]);
 
@@ -55,8 +55,14 @@ const TableTemplate = () => {
         {paramsScan.map((item, index) => <InputBlock item={item} index={index} addParam={AddParams}/>)}
       </form>
       <button
-        className="btn btn-success btn-lg"
-        disabled={paramsData.length !== paramsScan.length}
+        className="btn btn-success btn-lg mr-10 mrr-10"
+        onClick={StepBack}
+        >
+        Назад
+      </button>
+      <button
+        className="btn btn-success btn-lg mr-10"
+        disabled={paramsData.length === 0 || paramsData.length !== paramsScan.length}
         onClick={send}
         >
         Дальше

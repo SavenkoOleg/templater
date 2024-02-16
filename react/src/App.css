@@ -14,10 +14,31 @@
 .App-Card {
   background-color: white;
   border: solid 1px rgb(192, 192, 192);
-  box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 50px;
+  margin-left: 30vw;
+  width: 40vw;
+}
+
+.App-Card-2 {
+  background-color: white;
+  border: solid 1px rgb(192, 192, 192);
+  box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.1);
   border-radius: 50px;
   margin-left: 30vw;
   margin-top: 20vh;
   width: 40vw;
-  height: 50vh;
+  height: 25vh;
+}
+
+.mr-30 {
+  margin-top: 30px;
+}
+
+.mr-10 {
+  margin-bottom: 10px;
+}
+
+.mrr-10 {
+  margin-right: 10px;
 }

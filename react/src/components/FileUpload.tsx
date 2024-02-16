@@ -26,8 +26,7 @@ const FileUpload: React.FC = () => {
     })
       .then((response) => {
         setMessage(response.data.message);
-        console.log(response.data.file.filename);
-        setFilename(response.data.file.filename);
+        setFilename(response.data.result);
       })
       .catch((err) => {
         setProgress(0);
@@ -45,7 +44,7 @@ const FileUpload: React.FC = () => {
   const scan = () => {
     TemplaterService.scan(inputFilename)
       .then((response) => {
-        setParams(response.data.params)
+        setParams(response.data.result)
         setStep()
       })
       .catch(() => {
@@ -94,9 +93,9 @@ const FileUpload: React.FC = () => {
       )}
 
       <button
-        className="btn btn-success btn-lg"
+        className="btn btn-success btn-lg mr-30"
         onClick={scan}
-        disabled={!inputFilename}
+        hidden={!inputFilename}
         >
         Дальше
       </button>

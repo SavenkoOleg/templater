@@ -1,55 +1,94 @@
-import re
-from docx import Document
-from docxtpl import DocxTemplate
+import os
+import random
+import string
+
 from flask import Flask, request, jsonify
+from redis import Redis
+from rq import Queue
+from dotenv import load_dotenv
+
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+path = os.getenv("PATH_STORAGE")
+load_dotenv()
 
-path = "./data_storage/"
-pattern = r"\{\{\w{1,}\}\}"
-regex = re.compile(pattern)
+from app.file import file_scan, file_template, allowed_file
 
-@app.route("/tmp/scan", methods=['POST'])
+route_prefix = os.getenv("ROUTE_PREFIX")
+
+queue = Queue(
+    name=os.getenv("QUEUE_NAME"),
+    connection=Redis(
+        host=os.getenv("HOST_REDIS"),
+        port=os.getenv("PORT_REDIS")
+    )
+)
+
+def generate(length):
+    letters = string.ascii_lowercase
+    rand_string = ''.join(random.choice(letters) for i in range(length))
+    return rand_string
+
+
+@app.route(route_prefix + "uploadfile", methods=['POST'])
+def file_upload():
+    error = ""
+    ok = False
+    filename = ''
+
+    if 'file' not in request.files:
+        error = "Не могу прочитать файл"
+    else:
+        file = request.files['file']
+        if file.filename == '':
+            error = "Нет выбранного файла"
+        else:
+            if file and allowed_file(file.filename):
+                # Удаляет название на кирилице :(, но безопасный!
+                # filename = secure_filename(file.filename)
+                filename = file.filename.split('.')
+                filename = filename[0] + "_" + generate(4) + "." + filename[1]
+                file.save(os.path.join(os.getenv("PATH_STORAGE"), filename))
+                ok = True
+            else:
+                error = "Не допустимый формат"
+
+    resp = jsonify(
+        success=ok,
+        result = filename,
+        error=error
+    )
+
+    resp.status_code = 200 if ok else 500
+
+    return resp
+
+@app.route(route_prefix + "scan", methods=['POST'])
 def scan():
-    params = []
+    ok, params, count, error = file_scan(request.get_json()["file_name_input"])
 
-    try:
-        doc = Document(path + request.get_json()["file_name_input"])
+    resp = jsonify(
+        success=ok,
+        result = params,
+        count = count,
+        error=error
+    )
 
-        for paragraph in doc.paragraphs:
-            if regex.search(paragraph.text):
-                for m in re.finditer(pattern, paragraph.text):
-                    params.append(m.group(0)[2:len(m.group(0))-2])
-    except:
-        resp = jsonify(success=False, error="Неудалось обработать документ")
-        resp.status_code = 500
-
-    resp = jsonify(success=True, params=list(set(params)))
-    resp.status_code = 200
+    resp.status_code = 200 if ok else 500
 
     return resp
 
-@app.route("/tmp/templ", methods=['POST'])
-def templ():
-    request_data = request.get_json()
+@app.route(route_prefix + "templ", methods=['POST'])
+def template():
+  ok, filename, error  = file_template(request.get_json(), queue)
 
-    file_name_input = request_data["file_name_input"]
-    file_name_output = request_data["file_name_output"]
+  resp = jsonify(
+        success=ok,
+        result = filename,
+        error=error
+    )
 
-    context = {}
+  resp.status_code = 200 if True else 500
 
-    for item in request_data["templ_date"]:
-        context[item["key"]] = item["value"]
-
-    try:
-        doc = DocxTemplate(path + file_name_input)
-        doc.render(context)
-        doc.save(path + file_name_output)
-    except:
-        resp = jsonify(success=False, error="Неудалось обработать документ")
-        resp.status_code = 500
-
-    resp = jsonify(success=True, filename=file_name_output)
-    resp.status_code = 200
-
-    return resp
+  return resp

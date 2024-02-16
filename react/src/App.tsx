@@ -12,7 +12,7 @@ function App() {
         <p>Шаблонизатор</p>
       </header>
       
-      <div className="App-Card">
+      <div className={step === 0 || step === 2 ? "App-Card-2" : "App-Card"}>
           <General step={step}/>
       </div>
     </div>
