@@ -12,7 +12,7 @@ function App() {
         <p>Шаблонизатор</p>
       </header>
       
-      <div className={step === 1 ? "App-Card" : "App-Card-2"}>
+      <div className={step === 1 ? "container App-Card" : "container App-Card-2"} style={step === 1 ? { width: "700px" } : { width: "600px" }}>
           <General step={step}/>
       </div>
     </div>

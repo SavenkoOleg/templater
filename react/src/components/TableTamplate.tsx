@@ -55,13 +55,13 @@ const TableTemplate = () => {
         {paramsScan.map((item, index) => <InputBlock item={item} index={index} addParam={AddParams}/>)}
       </form>
       <button
-        className="btn btn-success btn-lg mr-10 mrr-10"
+        className="btn btn-success btn-lg mrr-10"
         onClick={StepBack}
         >
         Назад
       </button>
       <button
-        className="btn btn-success btn-lg mr-10"
+        className="btn btn-success btn-lg"
         disabled={paramsData.length === 0 || paramsData.length !== paramsScan.length}
         onClick={send}
         >

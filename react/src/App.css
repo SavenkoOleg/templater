@@ -15,7 +15,7 @@
   background-color: white;
   border: solid 1px rgb(192, 192, 192);
   box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.1);
-  border-radius: 40px;
+  border-radius: 30px;
   margin-left: 25vw;
   width: 50vw;
   margin-bottom: 20px;
@@ -25,19 +25,14 @@
   background-color: white;
   border: solid 1px rgb(192, 192, 192);
   box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.1);
-  border-radius: 40px;
-  margin-left: 33vw;
+  border-radius: 30px;
   margin-top: 20vh;
-  width: 34vw;
+  width: 600px;
   min-height: 15vh;
 }
 
 .mr-30 {
   margin-top: 10px;
-}
-
-.mr-10 {
-  margin-bottom: 15px;
 }
 
 .mrr-10 {

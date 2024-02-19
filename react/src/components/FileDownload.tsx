@@ -14,7 +14,7 @@ const FileDownload = () => {
         <a className="btn btn-link" href={url} download>Скачать готовый файл</a>
       </div>
       <button
-        className="btn btn-success btn-lg mr-30 mr-10"
+        className="btn btn-success btn-lg mr-30"
         onClick={setStep}
         >
         Начать заново
