@@ -1,18 +1,18 @@
 version: '3.3'
 
 services:
-  # nginx:
-  #   build: ./nginx
-  #   container_name: nginx
-  #   networks:
-  #     - myNetwork
-  #   ports:
-  #     - 1337:80
-  #   depends_on:
-  #     - python
-  #   volumes:
-  #     - ./data_storage/:/home/src/app/files
-  #     - ./react_v2/build/:/home/src/app/build
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    networks:
+      - myNetwork
+    ports:
+      - 80:80
+    depends_on:
+      - python
+    volumes:
+      - ./data_storage/:/home/src/app/files
+      - ./react_v2/build/:/home/src/app/build
 
   # python:
   #   build: ./templ
@@ -42,23 +42,23 @@ services:
   #   networks:
   #     - myNetwork
 
-  redis:
-    # mem_limit: 512m
-    container_name: redis
-    image: redis
-    ports:
-      - "6380:6379"
-    restart: unless-stopped
-    volumes:
-      - redis-data-tmp:/data/
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "100m"
-        max-file: "10"
-        tag: "templ"
-    networks:
-      - myNetwork
+  # redis:
+  #   # mem_limit: 512m
+  #   container_name: redis
+  #   image: redis
+  #   ports:
+  #     - "6380:6379"
+  #   restart: unless-stopped
+  #   volumes:
+  #     - redis-data-tmp:/data/
+  #   logging:
+  #     driver: "json-file"
+  #     options:
+  #       max-size: "100m"
+  #       max-file: "10"
+  #       tag: "templ"
+  #   networks:
+  #     - myNetwork
       
   postgresql:
     container_name: postgresql

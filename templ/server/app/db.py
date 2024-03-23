@@ -13,20 +13,20 @@ password = os.getenv("DB_PASSWORD")
 
 print(dbname)
 
-if dbname == None or len(dbname) == 0:
-  dbname = "templater"
+# if dbname == None or len(dbname) == 0:
+dbname = "templater"
 
-if host == None or len(host) == 0:
-  host = "postgresql"
+# if host == None or len(host) == 0:
+host = "postgresql"
 
-if port == None or len(port) == 0:
-  port = "5432"
+# if port == None or len(port) == 0:
+port = "5432"
 
-if user == None or len(user) == 0:
-  user = "apps"
+# if user == None or len(user) == 0:
+user = "apps"
 
-if password == None or len(password) == 0:
-  password = "qasw123"
+# if password == None or len(password) == 0:
+password = "qasw123"
 
 conn = psycopg2.connect(dbname=dbname, host=host, user=user, password=password, port=port)
 conn.autocommit = True 
