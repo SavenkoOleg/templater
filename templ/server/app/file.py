@@ -20,45 +20,42 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def file_scan(filename):
+def file_scan(user_id, filename):
   result_params = []
-  count = 0
-
+ 
   try:
 
-    doc = DocxTemplate(path + filename)
+    doc = DocxTemplate(os.getenv("PATH_STORAGE") + str(user_id) + os.getenv("PATH_TEMPLATES") + filename)
     params = doc.get_undeclared_template_variables()
   except:
-    return False, [], 0,text_error
+    return False, [], text_error
   
 
   for param in params:
       result_params.append(param)
-      count += 1
   
-  return True, result_params, count, ""
+  return True, result_params, ""
 
-def file_template(request_data, queue):
+def file_template(user_id, file_name_input, file_name_output, props, queue):
   context = {}
 
-  file_name_input = request_data["file_name_input"]
-  file_name_output = request_data["file_name_output"]
+  for prop in props:
+    context[prop["key"]] = prop["value"]
 
-  for item in request_data["templ_date"]:
-    context[item["key"]] = item["value"]
+  path_input = os.getenv("PATH_STORAGE") + str(user_id) + os.getenv("PATH_TEMPLATES") + file_name_input
+  path_output = os.getenv("PATH_STORAGE") + str(user_id) + os.getenv("PATH_GENERATED") + file_name_output
 
   try:
-    doc = DocxTemplate(path + file_name_input)
+    doc = DocxTemplate(path_input)
     params = doc.get_undeclared_template_variables()
     if len(params) == len(context):
       doc.render(context)
-      doc.save(path + file_name_output)
+      doc.save(path_output)
     else:
       return False, "", text_error_1001 
   except:
     return False, "", text_error 
 
-  queue.enqueue_in(delay, file_delete, path + file_name_input)
-  queue.enqueue_in(delay, file_delete, path + file_name_output)
+  # queue.enqueue_in(delay, file_delete, path + file_name_output)
 
-  return True, file_name_output, ""
+  return True, str(user_id) + os.getenv("PATH_GENERATED") + file_name_output, ""

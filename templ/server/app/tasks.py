@@ -1,4 +1,3 @@
-
 import os
  
 def file_delete(file):
