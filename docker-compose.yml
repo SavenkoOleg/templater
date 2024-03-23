@@ -7,7 +7,7 @@ services:
     networks:
       - myNetwork
     ports:
-      - 80:80
+      - 1000:80
     # depends_on:
     #   - python
     volumes:
