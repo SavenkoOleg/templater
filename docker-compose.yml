@@ -43,7 +43,7 @@ services:
       - myNetwork
 
   redis:
-    mem_limit: 512m
+    # mem_limit: 512m
     container_name: redis
     image: redis
     ports:
