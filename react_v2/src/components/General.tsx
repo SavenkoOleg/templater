@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import {TemplateContext} from "../context/TemplateContext"
+import {IFile, TemplateContext} from "../context/TemplateContext"
 import TableTemplate from "./TableTamplate";
 import FileDownload from "./FileDownload";
 import FileList from "./FileList";
@@ -39,6 +39,9 @@ const General = () => {
   function updateFileList(){
     FileUploadService.getFiles(cookies["token"])
     .then((response) => {
+      response.data.result.map((item:IFile) => {
+        item.props = JSON.parse(String(item.props.replaceAll('\'', '\"')));
+      })
       setFiles(response.data.result);
     })
     .catch((err) => {

@@ -52,6 +52,7 @@ const FileList = () => {
     setFilename(fileName);
     setStep();
   };
+
   const deleteFile = (id: number) => {
 
     files.map((item) => {
