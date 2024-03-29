@@ -50,8 +50,8 @@ const Reset = () => {
   return (
     <WrapperAuth title="Смена пароля">
         <div className="row gy-2 overflow-hidden">
-          <InputBlock name="password" index={1} placeholder="Новый пароль" changeHandler={changeHandler}/>
-          <InputBlock name="password" index={2} placeholder="Повторите пароль" changeHandler={changeHandler}/>
+          <InputBlock name="password" type="password" index={1} placeholder="Новый пароль" changeHandler={changeHandler}/>
+          <InputBlock name="confirm_password" type="password" index={2} placeholder="Повторите пароль" changeHandler={changeHandler}/>
 
           <LinkBlock link="log" text="Я помню пароль" handleClick={handleClick}/>
           

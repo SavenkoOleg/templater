@@ -91,7 +91,8 @@ const General = () => {
       {modal && (
         <Modal
           title={modalFlag === 1 ? "Загрузить новый шаблон" : "Удалить этот шаблон?"}
-          action={modalFlag === 1 ? "Сохранить" : "Удалить"}
+          action={modalFlag === 1 ? "Продолжить" : "Удалить"}
+          actionState={modalFlag === 1}
           show={modal}
           modalAction={modalFlag === 1 ? () => {updateFileList();close()} : deleteFile}
           onClose={close}

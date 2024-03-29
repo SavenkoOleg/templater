@@ -12,7 +12,7 @@ delay = timedelta(
   minutes=int(os.getenv("DELETE_FILE_MINUTES_DELAY"))
 )
 
-text_error = "Неудалось обработать документ"
+text_error = "Неудалось обработать документ. В шаблоне содержатся ошибки!"
 text_error_1001 = "Количество переменных в документе и в задании не совпадает"
 
 def allowed_file(filename):

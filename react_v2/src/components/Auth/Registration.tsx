@@ -53,11 +53,11 @@ const Registration = () => {
   return (
     <WrapperAuth title="Регистрация">
         <div className="row gy-2 overflow-hidden"> 
-          <InputBlock name="email" index={1} placeholder="Email" changeHandler={changeHandler}/>
+          <InputBlock name="email" type="email"  index={1} placeholder="Email" changeHandler={changeHandler}/>
           
-          <InputBlock name="password" index={1} placeholder="Пароль" changeHandler={changeHandler}/>
+          <InputBlock name="password" type="password" index={1} placeholder="Пароль" changeHandler={changeHandler}/>
           
-          <InputBlock name="confirm_password" index={1} placeholder="Повторите пароль" changeHandler={changeHandler}/>
+          <InputBlock name="confirm_password" type="password" index={1} placeholder="Повторите пароль" changeHandler={changeHandler}/>
 
           <LinkBlock link="log" text="У меня уже есть аккаунт" handleClick={handleClick}/>
 

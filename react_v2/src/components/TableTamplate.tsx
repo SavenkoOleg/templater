@@ -6,27 +6,7 @@ import { TemplateContext } from "../context/TemplateContext";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import FileUploadService from "../services/TemplaterService";
 import { useCookies } from 'react-cookie';
-
-type ParamInterface = {
-  key: number
-  name: string
-  value: string
-}
-
-type ContentI = {
-  name: string
-  value: string
-}
-
-type ItemI = {
-  itemId: string
-  content: ContentI
-}
-
-export type ColumnI = {
-  columnId: string
-  column: ItemI[]
-}
+import {ColumnI, normalize} from "./utils"
 
 const TableTemplate = () => {
 
@@ -37,121 +17,11 @@ const TableTemplate = () => {
   const [editProps, setEditProps] = useState<boolean>(false);
   const [activeTempl, setActiveTempl] = useState<boolean>(false);
 
-  const normalize = (columns: ColumnI[]) => {
-    console.log(columns)
-    columns = columns.filter(column => column.column.length === 0 ? false : true)
-    columns.unshift({
-      columnId: String(Math.floor(Math.random() * 1000)),
-      column: []
-    })
-
-    columns.push({
-      columnId: String(Math.floor(Math.random() * 1000)),
-      column: []
-    })
-    console.log(columns)
-    return columns
-  } 
-
-  const propsScan: ColumnI[] = [
-    {
-      columnId: "1",
-      column: []
-    },
-    {
-      columnId: "2",
-      column: [{
-        itemId: "1",
-        content: {
-          name: "test 1",
-          value: ""
-        }
-      }]
-    },
-    {
-      columnId: "3",
-      column: [
-        {
-          itemId: "2",
-          content: {
-            name: "test 2",
-            value: ""
-          }
-        },{
-          itemId: "3",
-          content: {
-            name: "test 3",
-            value: ""
-          }
-        }
-      ]
-    },
-    {
-      columnId: "4",
-      column: [
-        {
-          itemId: "4",
-          content: {
-            name: "test 4",
-            value: ""
-          }
-        },{
-          itemId: "5",
-          content: {
-            name: "test 5",
-            value: ""
-          }
-        },{
-          itemId: "6",
-          content: {
-            name: "test 6",
-            value: ""
-          }
-        }
-      ]
-    },
-    {
-      columnId: "5",
-      column: [
-        {
-          itemId: "7",
-          content: {
-            name: "test 7",
-            value: ""
-          }
-        },{
-          itemId: "8",
-          content: {
-            name: "test 8",
-            value: ""
-          }
-        },{
-          itemId: "9",
-          content:{
-            name: "test 9",
-            value: ""
-          }
-        },{
-          itemId: "10",
-          content: {
-            name: "test 10",
-            value: ""
-          }
-        }
-      ]
-    },
-    {
-      columnId: "6",
-      column: []
-    }
-  ]
-  
   const [columns, setColumns] = useState<ColumnI[]>(file.props);
   
   const onDragEnd = (result: any, columns: ColumnI[], setColumns: any) => {
     if (!editProps) {setEditProps(true)}
   
-    console.log(result)
     if (!result.destination) return;
     const { source, destination } = result;
   
@@ -220,6 +90,12 @@ const TableTemplate = () => {
   }
 
   function saveProps(columns: ColumnI[]){
+    columns.map((column:ColumnI) => {
+      column.column.map(item => {
+        item.content.value = ""
+      })
+    })
+
     FileUploadService.saveProps(cookies["token"], file.id, columns)
     .then((response) => {
     })
@@ -286,14 +162,15 @@ const TableTemplate = () => {
                 return (
                   <Droppable droppableId={column.columnId} key={column.columnId} direction="horizontal">
                     {(provided, snapshot) => {
+
                       return (
                         // style={{background: snapshot.isDraggingOver ? "lightblue" : "lightgrey"}
+                      
                         <div {...provided.droppableProps} ref={provided.innerRef}> 
                           <div className={DnDContainer} key={column.columnId}>
-
                               {column.column.map((item, index) => {
                                 return (
-                                  <Draggable key={item.itemId} draggableId={item.itemId} index={index} >
+                                  <Draggable key={item.itemId} draggableId={item.itemId} index={index}>
                                     {(provided, snapshot) => {
 
                                       return (

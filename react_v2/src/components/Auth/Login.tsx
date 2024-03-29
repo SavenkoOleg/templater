@@ -57,9 +57,9 @@ const Login = () => {
   return (
     <WrapperAuth title="Авторизация">
         <div className="row gy-2 overflow-hidden">
-          <InputBlock name="email" index={1} placeholder="Email" changeHandler={changeHandler}/>
+          <InputBlock name="email" type="email" index={1} placeholder="Email" changeHandler={changeHandler}/>
           
-          <InputBlock name="password" index={2} placeholder="Пароль" changeHandler={changeHandler}/>
+          <InputBlock name="password" type="password" index={2} placeholder="Пароль" changeHandler={changeHandler}/>
 
           <div className="col-12">
             {message && (<div className="alert alert-warning">{message}</div>)}

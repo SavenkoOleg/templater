@@ -26,6 +26,7 @@ const InputBlock = ({name, value, index, addParam}:TemplBlockInterface) => {
             name={name}
             placeholder={name}
             className="form-control"
+            style={valueST.length > 0 ? {borderColor: "rgba(90, 209, 96)"} : {}}
             value={valueST}
             onChange={changeHandler}
           />

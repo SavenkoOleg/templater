@@ -229,12 +229,14 @@ def file_upload_v2(user_id):
         else:
             if file and allowed_file(file.filename):
                 filename_orig = file.filename
-                # filename = secure_filename(file.filename)
                 filename = filename_orig.split('.')
                 filename = "file-" + generate(15) + "." + filename[1]    
                 file.save(os.path.join(os.getenv("PATH_STORAGE") + str(user_id) + os.getenv("PATH_TEMPLATES"), filename))
  
                 ok, params, error = file_scan(user_id, filename)
+                print("\n === ok ", ok)
+                print("\n === params ", params)
+                print("\n === error ", error)
                 if ok:
                     document_id, code, error = add_document(user_id, filename_orig, filename)
                     if document_id != None:

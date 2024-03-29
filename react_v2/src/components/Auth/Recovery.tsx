@@ -50,7 +50,7 @@ const Recovery = () => {
   return (
     <WrapperAuth title="Восстановление">
         <div className="row gy-2 overflow-hidden">
-          <InputBlock name="email" index={1} placeholder="Email" changeHandler={changeHandler}/>
+          <InputBlock name="email" type="email" index={1} placeholder="Email" changeHandler={changeHandler}/>
 
           <LinkBlock link="log" text="Я помню пароль" handleClick={handleClick}/>
           

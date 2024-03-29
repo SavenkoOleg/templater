@@ -24,6 +24,7 @@ const FileBlock = ({
         <label
           className="col-10"
           style={{ textAlign: "left", paddingBottom: "0px" }}
+          onClick={() => selectFile(item.id)}
         >
           {item.filename}
         </label>

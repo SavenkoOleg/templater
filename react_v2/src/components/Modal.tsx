@@ -5,11 +5,12 @@ interface ModalProps {
   title: string;
   action: string;
   show: boolean;
+  actionState: boolean;
   onClose: () => void;
   modalAction: () => void;
 }
 
-export function Modal({ children, title, action, show, onClose, modalAction }: ModalProps) {
+export function Modal({ children, title, action, show, actionState, onClose, modalAction }: ModalProps) {
   return (
     <>
       <div className={show ? "modal fade show" :"modal fade" } style={{display: "block"}}>
@@ -26,7 +27,7 @@ export function Modal({ children, title, action, show, onClose, modalAction }: M
             <div className="modal-body">{children}</div>
             <div className="modal-footer">
 
-              <button type="button" className="btn btn-primary" onClick={modalAction}>
+              <button type="button" className={actionState ? "btn btn-primary" : "btn btn-danger"} onClick={modalAction}>
                 {action}
               </button>
             </div>

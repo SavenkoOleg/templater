@@ -5,6 +5,7 @@ import {IFile, TemplateContext } from "../context/TemplateContext";
 import FileUploadService from "../services/TemplaterService";
 import { useCookies } from "react-cookie";
 import { ModalContext } from "../context/ModalContext";
+import { normalize } from "./utils";
 
 const FileList = () => {
   const [currentFile, setCurrentFile] = useState<IFile>();
@@ -44,6 +45,7 @@ const FileList = () => {
 
     files.map((item) => {
       if (item.id === id) {
+        item.props = normalize(item.props)
         setFile(item)
         fileName = item.filename;
       }
@@ -86,7 +88,7 @@ const FileList = () => {
 
       </div>
 
-      <div className="list-group" style={{ margin: "10px 0px 0px 0px", height: files.length ? "80vh" : "", overflowY: files.length < 5 ? "visible" : "scroll"}}>
+      <div className="list-group" style={{ margin: "10px 0px 0px 0px", height: files.length ? "80vh" : "", overflowY: files.length < 10 ? "visible" : "scroll"}}>
         {files.length === 0 ?
         <div className={message ? "alert alert-warning" : cookies["token"] ? "alert alert-info" : "alert alert-danger"}>
           {message ? message : cookies["token"] ? "Шаблоны пока не загружены" : "Необходима авторизация"}
