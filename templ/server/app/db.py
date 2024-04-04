@@ -14,10 +14,10 @@ password = os.getenv("DB_PASSWORD")
 print(dbname)
 
 # if dbname == None or len(dbname) == 0:
-dbname = "templater"
+dbname = 'templater'
 
 # if host == None or len(host) == 0:
-host = "postgresql"
+host = 'postgresql'
 
 # if port == None or len(port) == 0:
 port = "5432"
