@@ -66,7 +66,7 @@ const General = () => {
   return (
     <>
       <nav className="navbar navbar-dark bg-primary">
-        <p className="navbar-brand">Смарт-шаблон</p>
+        <p className="navbar-brand">СМАРТ-ШАБЛОН</p>
         <div className="form-inline my-2 my-lg-0">
           <button className="btn btn-outline-light my-2 my-sm-0" onClick={() => handleClick("log")}>{cookies["token"] ? "Выйти" : "Войти"}</button>
         </div>
