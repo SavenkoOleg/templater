@@ -67,7 +67,7 @@ const Registration = () => {
 
           <div className="col-12">
             <div className="d-grid my-3">
-              <button className="btn btn-primary btn-lg" onClick={registr}>
+              <button className="btn btn-primary" onClick={registr}>
                 Зарегистрироваться
               </button>
             </div>

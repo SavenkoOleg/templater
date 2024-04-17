@@ -30,6 +30,9 @@ const Login = () => {
       case "log":
         navigate("/");
         break;
+      case "res":
+        navigate("/reset");
+        break;
       default:
         navigate("/");
     }
@@ -91,11 +94,19 @@ const Login = () => {
 
           <div className="col-12">
             <div className="d-grid my-3">
-              <button className="btn btn-primary btn-lg" onClick={login}>
+              <button className="btn btn-primary" onClick={login}>
                 Войти
               </button>
             </div>
           </div>
+
+          {/* <div className="col-12">
+            <div className="d-grid my-3">
+              <button className="btn btn-primary" onClick={() => handleClick("res")}>
+                Восстановление
+              </button>
+            </div>
+          </div> */}
 
           <div className="col-12">
             <p className="m-0 text-secondary text-center">

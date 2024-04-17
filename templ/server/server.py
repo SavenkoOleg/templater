@@ -234,9 +234,7 @@ def file_upload_v2(user_id):
                 file.save(os.path.join(os.getenv("PATH_STORAGE") + str(user_id) + os.getenv("PATH_TEMPLATES"), filename))
  
                 ok, params, error = file_scan(user_id, filename)
-                print("\n === ok ", ok)
-                print("\n === params ", params)
-                print("\n === error ", error)
+
                 if ok:
                     document_id, code, error = add_document(user_id, filename_orig, filename)
                     if document_id != None:
@@ -375,17 +373,21 @@ def recovery_account():
     ok = False
     error = ""
     code = 400
-    print(email, " \n ====================== \n")
+
     if len(email) == 0:
         error = 'Не указан email'
     else:
         user, code, error = get_user_by_email(email)
         if user != None:
-            print(user, " \n ====================== \n")
             code = new_access_code()
             add_access_code(user["id"], code)
             ok = True
             code = 200
+        else:
+            ok = False
+            code = 200
+            error = "Пользователь с таким email не найден!"
+
 
     #  TODO: Отправить код по почте
         

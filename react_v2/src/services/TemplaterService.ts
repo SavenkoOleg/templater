@@ -21,6 +21,12 @@ export type IAuthRecoveryData = {
   email: string
 }
 
+export type IAuthResetData = {
+  password: string
+  confirm_password: string
+  code: string
+}
+
 export type ITemplater = {
   file_name_input: string,
   document_id: number,
@@ -42,6 +48,10 @@ const login = (authData: IAuthData): Promise<any> => {
 
 const recovery = (authData: IAuthRecoveryData): Promise<any> => {
   return http.post("/api/v2/user/recovery", authData);
+};
+
+const reset = (authData: IAuthResetData): Promise<any> => {
+  return http.post("/api/v2/user/reset", authData);
 };
 
 const reg = (authData: IAuthRegistrData): Promise<any> => {
@@ -89,6 +99,7 @@ const FileUploadService = {
   reg,
   deleteFile,
   saveProps,
+  reset,
 };
 
 export default FileUploadService;

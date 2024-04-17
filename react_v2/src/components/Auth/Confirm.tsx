@@ -7,7 +7,7 @@ import WrapperAuth from "./WrapperAuth";
 import InputBlock from "./InputBlock";
 import LinkBlock from "./LinkBlock";
 
-const Reset = () => {
+const Confirm = () => {
   const [data, setData] = useState<IAuthResetData>({
     password: "",
     confirm_password: "",
@@ -40,8 +40,7 @@ const Reset = () => {
     TemplaterService.reset(data)
       .then((res) => {
         if (res.data.success) {
-          // handleClick("log");
-          setState(true)
+          handleClick("log");
         } else {
           console.log(res.data)
           setMessage(res.data.error)
@@ -91,4 +90,4 @@ const Reset = () => {
   );
 };
 
-export default Reset;
+export default Confirm;
