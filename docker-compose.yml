@@ -14,71 +14,71 @@ services:
       - ./data_storage/:/home/src/app/files
       - ./react_v2/build/:/home/src/app/build
 
-  python:
-    build: ./templ
-    container_name: templ
-    restart: always
-    # ports:
-    #   - 5100:5000
-    # depends_on:
-    #   - redis
-    volumes:
-       - ./data_storage/:/usr/src/app/data_storage/
-       - ./templ/server/:/usr/src/app/
-    command: uwsgi --socket 0.0.0.0:5000 --protocol=http -w wsgi:app --env=.env
-    networks:
-      - myNetwork
+  # python:
+  #   build: ./templ
+  #   container_name: templ
+  #   restart: always
+  #   # ports:
+  #   #   - 5100:5000
+  #   # depends_on:
+  #   #   - redis
+  #   volumes:
+  #      - ./data_storage/:/usr/src/app/data_storage/
+  #      - ./templ/server/:/usr/src/app/
+  #   command: uwsgi --socket 0.0.0.0:5000 --protocol=http -w wsgi:app --env=.env
+  #   networks:
+  #     - myNetwork
 
-  deletefile:
-    build: ./deletefile
-    container_name: deletefile
-    restart: always
-    depends_on:
-      - redis
-    volumes:
-       - ./data_storage/:/usr/src/app/data_storage/
-       - ./templ/server/app:/usr/src/app/app
-    command: rq worker --with-scheduler --url redis://redis:6379
-    networks:
-      - myNetwork
+  # deletefile:
+  #   build: ./deletefile
+  #   container_name: deletefile
+  #   restart: always
+  #   depends_on:
+  #     - redis
+  #   volumes:
+  #      - ./data_storage/:/usr/src/app/data_storage/
+  #      - ./templ/server/app:/usr/src/app/app
+  #   command: rq worker --with-scheduler --url redis://redis:6379
+  #   networks:
+  #     - myNetwork
 
-  redis:
-    # mem_limit: 512m
-    container_name: redis
-    image: redis
-    # ports:
-    #   - "6380:6379"
-    restart: unless-stopped
-    volumes:
-      - redis-data-tmp:/data/
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "100m"
-        max-file: "10"
-        tag: "templ"
-    networks:
-      - myNetwork
+  # redis:
+  #   # mem_limit: 512m
+  #   container_name: redis
+  #   image: redis
+  #   # ports:
+  #   #   - "6380:6379"
+  #   restart: unless-stopped
+  #   volumes:
+  #     - redis-data-tmp:/data/
+  #   logging:
+  #     driver: "json-file"
+  #     options:
+  #       max-size: "100m"
+  #       max-file: "10"
+  #       tag: "templ"
+  #   networks:
+  #     - myNetwork
       
-  postgresql:
-    container_name: postgresql
-    image: postgres:16.2
-    restart: unless-stopped
-    volumes:
-      - postgres-data-tmp:/var/lib/postgresql/data/
-    environment:
-      - POSTGRES_USER=apps
-      - POSTGRES_PASSWORD=qasw123
-    ports:
-      - "5444:5432"
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "100m"
-        max-file: "10"
-        tag: "{{.Name}}"
-    networks:
-      - myNetwork
+  # postgresql:
+  #   container_name: postgresql
+  #   image: postgres:16.2
+  #   restart: unless-stopped
+  #   volumes:
+  #     - postgres-data-tmp:/var/lib/postgresql/data/
+  #   environment:
+  #     - POSTGRES_USER=apps
+  #     - POSTGRES_PASSWORD=qasw123
+  #   ports:
+  #     - "5444:5432"
+  #   logging:
+  #     driver: "json-file"
+  #     options:
+  #       max-size: "100m"
+  #       max-file: "10"
+  #       tag: "{{.Name}}"
+  #   networks:
+  #     - myNetwork
 
 
 networks:
