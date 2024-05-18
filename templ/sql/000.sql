@@ -4,37 +4,72 @@ create database templater
 comment on database templater is 'Основная БД проекта';
 
 
-create table public.users
+create table "user"
 (
-    id       integer not null,
-    password varchar,
-    email    varchar not null
+    id          serial
+        constraint user_pk
+            primary key,
+    email       varchar,
+    password    varchar,
+    create_date date,
+    active      boolean
 );
 
-comment on table public.users is 'Пользователи';
+comment on table "user" is 'Список пользователей';
 
-alter table public.users
+alter table "user"
     owner to apps;
 
-create table public.documents
+
+create table documents
 (
-    id            integer,
-    user_id       integer
-        constraint documents_users_id_fk
-            references public.users (id),
-    documetn_name varchar
-);
-
-comment on table public.documents is 'Список документов пользователя';
-
-
-create table public.templ_props
-(
-    id          integer
-        constraint templ_props_pk
+    id            serial
+        constraint documents_pk
             primary key,
-    document_id integer,
-    props       jsonb
+    user_id       integer
+        constraint documents_user_id_fk
+            references "user",
+    filename_orig varchar,
+    filename      varchar,
+    create_date   date
 );
 
-comment on table public.templ_props is 'Наборы полей для шаблонизации';
+comment on table documents is 'Список загруженных шаблонов';
+
+alter table documents
+    owner to apps;
+
+create table doc_props
+(
+    id          serial
+        constraint doc_props_pk
+            primary key,
+    document_id integer
+        constraint doc_props_documents_id_fk
+            references documents,
+    data        varchar,
+    user_id     integer
+        constraint doc_props_user_id_fk
+            references "user",
+    create_date date
+);
+
+comment on table doc_props is 'Структура параметров для шаблонизации';
+
+alter table doc_props
+    owner to apps;
+
+    create table access
+(
+    id          serial
+        constraint access_pk
+            primary key,
+    user_id     integer
+        constraint access_user_id_fk
+            references "user",
+    code        varchar,
+    create_date date
+);
+
+alter table access
+    owner to apps;
