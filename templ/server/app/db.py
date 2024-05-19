@@ -182,7 +182,7 @@ def new_user(email, password):
   user = {}
   try:
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO public.user (email, password, active, create_date) VALUES (%s, %s, false, %s)', (email, password, date.today()))
+    cursor.execute('INSERT INTO public.user (email, password, active, create_date) VALUES (%s, %s, true, %s)', (email, password, date.today()))
     cursor.close()
   except:
     return None, 500, "Во время создания пользователя произошла ошибка"
