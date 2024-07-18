@@ -9,8 +9,8 @@ services:
     restart: unless-stopped
     ports:
       - 80:80
-    depends_on:
-      - python
+    # depends_on:
+    #   - python
     volumes:
       - ./data_storage/:/home/src/app/files
       - ./react_v2/build/:/home/src/app/build
