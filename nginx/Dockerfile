@@ -4,7 +4,9 @@ FROM nginx:1.23-alpine
 RUN rm /etc/nginx/conf.d/default.conf
 
 RUN apk update \
-  && apk add certbot python3-certbot-nginx
+  && apk add certbot
   
+RUN apk add python3-certbot-nginx
+
 # Подкидываем наш
 COPY ./nginx.conf /etc/nginx/conf.d/
