@@ -13,6 +13,7 @@ services:
     #   - python
     volumes:
       - ./data_storage/:/home/src/app/files
+      - ./cert/:/home/src/cert
       - ./react_v2/build/:/home/src/app/build
 
   # python:
