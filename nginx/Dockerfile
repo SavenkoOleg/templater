@@ -3,8 +3,8 @@ FROM nginx:1.23-alpine
 # Удаляем дефолтный конфиг
 RUN rm /etc/nginx/conf.d/default.conf
 
-RUN apk update \
-  && apk add certbot
+# RUN apk update \
+#   && apk add certbot
 
 # RUN apk add python3-certbot-nginx
 
