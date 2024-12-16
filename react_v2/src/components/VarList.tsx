@@ -63,7 +63,12 @@ const VarList = () => {
 
         {!noactive &&
           <div className="col-3" style={{ textAlign: "right", padding: "0px", margin: "0px" }}>
-            <button className="btn btn-success btn-sm" onClick={() => {setModalFlag(1);open();}}>Создать новую переменную</button>
+            <button className="btn btn-success btn-sm" onClick={() => {setModalFlag(1);open();setVarBlock({
+              id: 0,
+              name:"",
+              placeholder:"",
+              data:[]
+            })}}>Создать новую переменную</button>
           </div>}
 
       </div>
