@@ -31,6 +31,68 @@ password = "qasw123"
 conn = psycopg2.connect(dbname=dbname, host=host, user=user, password=password, port=port)
 conn.autocommit = True 
 
+# ----------------- Vars.CRUD ----------------------
+def var_create(user_id, name, placeholder, data):
+  var_id = None
+  try:
+    cursor = conn.cursor()
+    cursor.execute('INSERT INTO public.vars (user_id, name, placeholder, data, create_date) VALUES (%s, %s, %s, %s, %s) RETURNING id;', (user_id, name, placeholder, str(data), date.today()))
+    id = cursor.fetchone()[0]
+    if id:
+      var_id = id
+    cursor.close()
+  except:
+    return None, 500, "Во время сохранения переменной произошла ошибка"
+
+  return var_id, 200, ""
+
+def var_delete(user_id, var_id):
+    try:
+      cursor = conn.cursor()
+      cursor.execute('DELETE FROM ONLY public.vars WHERE id=%s AND user_id=%s', (var_id, user_id))
+
+      cursor.close()
+    except:
+      return False, 500, "Во время удаления переменной произошла ошибка"
+
+    return True, 200, ""
+
+def var_update(user_id, var_id, name, placeholder, data):
+  try:
+    cursor = conn.cursor()
+    cursor.execute('UPDATE public.vars SET name=%s, placeholder=%s, data=%s WHERE user_id=%s AND id=%s', (name, placeholder, str(data), user_id, var_id))
+    cursor.close()
+  except:
+    return False, 500, 'UPDATE public.vars SET name=%s, placeholder=%s, data=%s WHERE user_id=%s AND id=%s' % (name, placeholder, str(data), user_id, var_id)
+
+  return True, 200, ""
+
+def var_get_all(user_id):
+    vars_out = []
+
+    try:
+      cursor = conn.cursor()
+      cursor.execute('SELECT id, name, placeholder, data FROM public.vars WHERE user_id=%s', (user_id,))
+      vars = cursor.fetchall()
+
+      for var in vars:
+        document = {}
+        document["id"] = var[0]
+        document["name"] = var[1]
+        document["placeholder"] = var[2]
+        document["data"] = var[3]
+
+        vars_out.append(document)
+      
+      cursor.close()
+    except:
+      return [], 500, "Во время запроса списка переменных произошла ошибка"
+
+    if len(vars_out) == 0:
+      return [], 200, "Переменные не найдены"
+
+    return vars_out, 200, ""
+
 # ----------------- Documents.CRUD -----------------
 
 def add_document(user_id, filename_orig, filename):
@@ -90,6 +152,7 @@ def get_documents(user_id):
       document["id"] = doc[0]
       document["props"] = doc[1]
       document["filename"] = doc[2]
+
       documents.append(document)
       
     cursor.close()

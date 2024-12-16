@@ -37,6 +37,12 @@
   padding-top: 5px;
 }
 
+.var-block {
+  border-radius: 5px;
+  margin-bottom: 5px;
+  padding-top: 5px;
+}
+
 .file-block:hover {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }

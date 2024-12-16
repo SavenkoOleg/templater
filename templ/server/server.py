@@ -19,6 +19,7 @@ from werkzeug.utils import secure_filename
 
 from app.db import add_document, delete_document, add_document_props, update_document_props, confirm_user, get_user_by_email
 from app.db import  get_document, add_access_code, new_user, get_documents, get_user_id_by_access_code, get_document_by_name
+from app.db import var_create, var_delete, var_update, var_get_all
 from app.tasks import file_delete
 from app.tools import new_access_code
 
@@ -251,6 +252,148 @@ def file_upload_v2(user_id):
     resp.status_code = code
 
     return resp
+# ------------------- Vars.List ------------------------
+@app.route(route_prefix + "v2/vars/create", methods=['POST'])
+@token_required
+def vars_create(user_id):
+    ok = True
+    var_id = 0
+    code = 200
+
+    body = request.get_json()
+
+    if 'name' in body:
+        name = body['name']
+    else:
+        ok=False
+        error = "Не передано поле name"
+
+    if 'placeholder' in body:
+        placeholder = body['placeholder']
+    else:
+        ok=False
+        error = "Не передано поле placeholder"
+
+    if 'data' in body:
+        data = body['data']
+    else:
+        ok=False
+        error = "Не передано поле data"
+
+    if ok:
+        var_id, code, error = var_create(user_id, name, placeholder, data)
+    
+        if code != 200:
+            ok = False
+    
+    resp = jsonify(
+        success=ok,
+        result=var_id,
+        error=error
+    )
+
+    resp.status_code = code
+
+    return resp
+
+@app.route(route_prefix + "v2/vars/delete", methods=['POST'])
+@token_required
+def vars_delete(user_id):
+    ok = True
+    code = 200
+
+    body = request.get_json()
+
+    if 'id' in body:
+        var_id = body['id']
+    else:
+        ok=False
+        error = "Не передано поле id"
+
+    if ok:
+        ok, code, error = var_delete(user_id, var_id)
+
+        if code != 200:
+            ok = False
+    
+    resp = jsonify(
+        success=ok,
+        result=[],
+        error=error
+    )
+
+    resp.status_code = code
+
+    return resp
+
+@app.route(route_prefix + "v2/vars/update", methods=['POST'])
+@token_required
+def vars_update(user_id):
+    ok = True
+    var_id = 0
+    code = 200
+
+    body = request.get_json()
+
+    if 'id' in body:
+        var_id = body['id']
+    else:
+        ok=False
+        error = "Не передано поле id"
+
+    if 'name' in body:
+        name = body['name']
+    else:
+        ok=False
+        error = "Не передано поле name"
+
+    if 'placeholder' in body:
+        placeholder = body['placeholder']
+    else:
+        ok=False
+        error = "Не передано поле placeholder"
+
+    if 'data' in body:
+        data = body['data']
+    else:
+        ok=False
+        error = "Не передано поле data"
+
+    if ok:
+        ok, code, error = var_update(user_id, var_id, name, placeholder, data)
+    
+        if code != 200:
+            ok = False
+    
+    resp = jsonify(
+        success=ok,
+        result=var_id,
+        error=error
+    )
+
+    resp.status_code = code
+
+    return resp
+
+@app.route(route_prefix + "v2/vars/get", methods=['GET'])
+@token_required
+def vars_get_all(user_id):
+    ok = True
+    vars, code, error = var_get_all(user_id)
+    
+    if code != 200:
+        ok = False
+        
+    resp = jsonify(
+        success=ok,
+        result = vars,
+        error=error
+    )
+
+    resp.status_code = code
+
+    return resp
+
 
 # ------------------- Document.Props -------------------
 @app.route(route_prefix + "v2/document/props/update", methods=['POST'])

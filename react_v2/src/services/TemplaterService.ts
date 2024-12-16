@@ -1,4 +1,5 @@
 import http from "../http-common";
+import {IVarP} from "../context/TemplateContext";
 // import ColumnsI from "../components/TableTamplate"
 
 export type ITemplDate = {
@@ -90,7 +91,39 @@ const getFiles = (token: string): Promise<any> => {
   });
 }
 
-const FileUploadService = {
+const varCreate = (token: string, varn: IVarP): Promise<any> => {
+  return http.post("/api/v2/vars/create",{name:varn.name, placeholder:varn.placeholder, data: varn.data}, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+};
+
+const varDelete = (token: string, id: number): Promise<any> => {
+  return http.post("/api/v2/vars/delete",{id:id}, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+};
+
+const varUpdate = (token: string, varn: IVarP): Promise<any> => {
+  return http.post("/api/v2/vars/update",{id:varn.id, name:varn.name, placeholder:varn.placeholder, data: varn.data}, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+};
+
+const varGet = (token: string): Promise<any> => {
+  return http.get("/api/v2/vars/get", {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+};
+
+const Services = {
   templ,
   scan,
   login,
@@ -100,6 +133,10 @@ const FileUploadService = {
   deleteFile,
   saveProps,
   reset,
+  varCreate,
+  varDelete,
+  varUpdate,
+  varGet,
 };
 
-export default FileUploadService;
+export default Services;

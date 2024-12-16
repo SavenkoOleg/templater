@@ -1,20 +1,19 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import FileBlock from "./FileBlock";
 import { useState, useContext, useEffect } from "react";
-import {IFile, TemplateContext } from "../context/TemplateContext";
+import {IFile, IVar, TemplateContext} from "../context/TemplateContext";
 import FileUploadService from "../services/TemplaterService";
 import { useCookies } from "react-cookie";
 import { ModalContext } from "../context/ModalContext";
 import { normalize } from "./utils";
+import Services from "../services/TemplaterService";
 
 const FileList = () => {
   const [currentFile, setCurrentFile] = useState<IFile>();
 
   const { open, setModalFlag, setFileModal } = useContext(ModalContext);
 
-  const { setFilename, setStep, files, setFiles, setFile } =
-    useContext(TemplateContext);
-
+  const { setFilename, setStep, files, setFiles, setFile, setVars } = useContext(TemplateContext);
 
   const [message, setMessage] = useState<string>("");
   const [noactive, setNoActive] = useState<boolean>(false);
@@ -23,7 +22,8 @@ const FileList = () => {
 
   useEffect(() => {
     if (!cookies["token"]) { 
-      setNoActive(true)} else{
+      setNoActive(true)
+    } else{
         FileUploadService.getFiles(cookies["token"])
         .then((response) => {
           response.data.result.map((item:IFile) => {
@@ -38,6 +38,26 @@ const FileList = () => {
           setMessage(err.response.data.error);
         });
       }
+  }, []);
+
+  useEffect(() => {
+    if (!cookies["token"]) {
+      setNoActive(true)
+    } else{
+      Services.varGet(cookies["token"])
+          .then((response) => {
+            response.data.result.map((item:IVar) => {
+              item.data = JSON.parse(String(item.data.replaceAll('\'', '\"')));
+            })
+            setVars(response.data.result);
+          })
+          .catch((err) => {
+            if (err.response.data.noactive) {
+              setNoActive(true)
+            }
+            setMessage(err.response.data.error);
+          });
+    }
   }, []);
 
   const selectFile = (id: number) => {

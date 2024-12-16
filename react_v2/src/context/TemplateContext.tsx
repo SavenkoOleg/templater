@@ -6,6 +6,25 @@ export type IFile = {
   props: any;
 };
 
+export type IVar = {
+  id: number;
+  name: string;
+  placeholder: string;
+  data: any;
+};
+
+export type IVarP = {
+  id: number;
+  name: string;
+  placeholder: string;
+  data: IDataVar[];
+};
+
+export type IDataVar = {
+  id: number;
+  text: string;
+};
+
 interface ITemplateContext {
   inputFilename: string
   outputFilename: string
@@ -13,6 +32,8 @@ interface ITemplateContext {
   paramsScan: string[]
   step: number
   files: IFile[]
+  varnn: IVarP
+  vars: IVar[]
   file: IFile
   setFilename: (filename:string) => void
   setOutputFilename: (filename:string) => void
@@ -20,16 +41,25 @@ interface ITemplateContext {
   setParams: (params:string[]) => void
   StepBack: () => void
   setFiles: (fls:IFile[]) => void
+  setVars: (vrs:IVar[]) => void
   setFile: (fls:IFile) => void
+  setVarBlock: (block:IVarP) => void
 }
 
 export const TemplateContext = createContext<ITemplateContext>({
   inputFilename: '',
   outputFilename: '',
   fileUpload: false,
+  varnn: {
+    id: 0,
+    name: "",
+    placeholder: "",
+    data: []
+  },
   paramsScan: [],
   step: 0,
   files: [],
+  vars: [],
   file: {
     filename: "",
     id: 0,
@@ -41,7 +71,9 @@ export const TemplateContext = createContext<ITemplateContext>({
   setStep: () => {},
   StepBack: () => {},
   setFiles: (fls:IFile[]) => {},
+  setVars: (vrs:IVar[]) => {},
   setFile: (fls:IFile) => {},
+  setVarBlock: (block:IVarP) => {},
 })
 
 export const TemplateState = ({ children }: {children: React.ReactNode}) => {
@@ -51,6 +83,13 @@ export const TemplateState = ({ children }: {children: React.ReactNode}) => {
   const [paramsScan, setScanParams] = useState<string[]>([]);
   const [step, setStepST] = useState<number>(0);
   const [files, setFilesCTX] = useState<IFile[]>([]);
+  const [vars, setVarsCTX] = useState<IVar[]>([]);
+  const [varnn, setVarBlockCTX] = useState<IVarP>({
+    id: 0,
+    name: "",
+    placeholder: "",
+    data: []
+  });
   const [file, setFileCTX] = useState<IFile>({
     filename: "",
     id: 0,
@@ -86,15 +125,23 @@ export const TemplateState = ({ children }: {children: React.ReactNode}) => {
     setFilesCTX(fls)
   }
 
+  const setVars = (vrs:IVar[]) => {
+    setVarsCTX(vrs)
+  }
+
   const setFile = (fl:IFile) => {
     setFileCTX(fl)
+  }
+
+  const setVarBlock = (block:IVarP) => {
+    setVarBlockCTX(block)
   }
 
 
   return (
     <TemplateContext.Provider value={{ inputFilename, fileUpload, paramsScan,step,outputFilename, 
     setStep, setFilename, setParams, setOutputFilename, StepBack,
-    files, setFiles, file, setFile }}>
+    files, setFiles, file, setFile, vars, setVars, varnn, setVarBlock}}>
       { children }
     </TemplateContext.Provider>
   )

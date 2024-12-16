@@ -10,6 +10,7 @@ type TemplBlockInterface = {
 
 const InputBlock = ({name, value, index, addParam}:TemplBlockInterface) => {
   const [valueST, setValueST] = useState<string>(value);
+
   const changeHandler = (event: React.FormEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value;
     const name = event.currentTarget.name;
@@ -18,10 +19,10 @@ const InputBlock = ({name, value, index, addParam}:TemplBlockInterface) => {
 
     addParam(name, value, index);
   }
-  
+
   return (
-    <div className="DnDInput" key={index}>
-          <input 
+      <div className="DnDInput" key={index}>
+        <input
             type="text"
             name={name}
             placeholder={name}
@@ -29,7 +30,7 @@ const InputBlock = ({name, value, index, addParam}:TemplBlockInterface) => {
             style={valueST.length > 0 ? {borderColor: "rgba(90, 209, 96)"} : {}}
             value={valueST}
             onChange={changeHandler}
-          />
+        />
       </div>
   );
 };

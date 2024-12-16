@@ -2,14 +2,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import InputBlock from "./InputBlock";
 import {useState, useContext} from 'react'
 import TemplaterService, { ITemplater } from "../services/TemplaterService";
-import { TemplateContext } from "../context/TemplateContext";
+import {IDataVar, IVarP, TemplateContext} from "../context/TemplateContext";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import FileUploadService from "../services/TemplaterService";
 import { useCookies } from 'react-cookie';
 import {ColumnI, normalize} from "./utils"
+import ButtonSizesExample from "./OptionBlock";
 
 const TableTemplate = () => {
-
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
   const {inputFilename, setOutputFilename, setStep, StepBack, file} = useContext(TemplateContext)
@@ -131,6 +131,8 @@ const TableTemplate = () => {
       });
   }
 
+  const {vars} = useContext(TemplateContext)
+
   return (
     <>
         <div className="row" style={{padding: "0px", margin: "0px"}}>
@@ -172,11 +174,23 @@ const TableTemplate = () => {
                                 return (
                                   <Draggable key={item.itemId} draggableId={item.itemId} index={index}>
                                     {(provided, snapshot) => {
+                                        let flag: boolean = false
+                                        let data: IDataVar[] = []
+
+                                        vars.map((v:IVarP) => {
+                                            if (v.placeholder === item.content.name) {
+                                                flag = true
+                                                data = v.data
+                                            }
+                                        });
 
                                       return (
                                         <div className="DndItem" key={item.itemId}>
                                           <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={{...provided.draggableProps.style}}>
-                                            <InputBlock value={item.content.value} name={item.content.name} index={item.itemId} addParam={AddParams}/>
+                                              {flag ?
+                                                  <ButtonSizesExample value={item.content.value} name={item.content.name} index={item.itemId} data={data} addParam={AddParams}/> :
+                                                  <InputBlock value={item.content.value} name={item.content.name} index={item.itemId} addParam={AddParams}/>
+                                              }
                                           </div>
                                         </div>
                                       )
@@ -200,18 +214,8 @@ const TableTemplate = () => {
 
         </DragDropContext>
 
-      <button
-        className="btn btn-success mrr-10"
-        onClick={StepBack}>
-          Назад к документам
-      </button>
-
-      <button
-        className="btn btn-success"
-        disabled={!activeTempl}
-        onClick={send}>
-          Заполнить шаблон
-      </button>
+      <button className="btn btn-success mrr-10" onClick={StepBack}>Назад к документам</button>
+      <button className="btn btn-success" disabled={!activeTempl} onClick={send}>Заполнить шаблон</button>
     </>
   );
 };

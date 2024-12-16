@@ -1,0 +1,65 @@
+### Vars create
+POST {{proto}}{{host}}:{{port}}/api/v2/vars/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyNX0.chq1RYm9wK0_j46ACRfk79vTwY50BRC0u6328-Wj2LY
+
+{
+  "name": "test1",
+  "placeholder": "test",
+  "data": []
+}
+
+### Vars delete
+POST {{proto}}{{host}}:{{port}}/api/v2/vars/delete
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyNX0.chq1RYm9wK0_j46ACRfk79vTwY50BRC0u6328-Wj2LY
+
+{
+  "id": 1
+}
+
+### Vars update
+POST {{proto}}{{host}}:{{port}}/api/v2/vars/update
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyNX0.chq1RYm9wK0_j46ACRfk79vTwY50BRC0u6328-Wj2LY
+
+{
+  "id": 3,
+  "name": "3333",
+  "placeholder": "dddd",
+  "data": [{
+    "id": 1,
+    "text": "Test 1"
+  },{
+    "id": 2,
+    "text": "Test 2"
+  },{
+    "id": 3,
+    "text": "Test 3"
+  }]
+}
+
+### Vars get all
+GET {{proto}}{{host}}:{{port}}/api/v2/vars/get
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyNX0.chq1RYm9wK0_j46ACRfk79vTwY50BRC0u6328-Wj2LY
+
+### User login
+POST {{proto}}{{host}}:{{port}}/api/v2/user/login
+Content-Type: application/json
+
+{
+  "email": "admin@test.ru",
+  "password": "qasw123"
+}
+
+### User login
+POST {{proto}}{{host}}:{{port}}/api/v2/user/reg
+Content-Type: application/json
+Authorization:
+
+{
+  "email": "admin@test.ru",
+  "password": "qasw123",
+  "confirm_password": "qasw123"
+}
