@@ -93,7 +93,7 @@ const General = () => {
     if (varn !== undefined) {
       Services.varDelete(cookies["token"], varn?.id, )
           .then((response) => {
-            setVars(response.data.result);
+            // setVars(response.data.result);
           })
           .catch((err) => {
             // setMessage(err.response.data.error);
