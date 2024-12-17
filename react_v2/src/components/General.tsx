@@ -16,7 +16,7 @@ import { ModalContext } from "../context/ModalContext";
 import Services from "../services/TemplaterService";
 
 const General = () => {
-  const {step, setFiles, setVars, varnn} = useContext(TemplateContext)
+  const {step, setFiles, setVars, varnn, StepBack} = useContext(TemplateContext)
 
   const { modal, close, modalFlag, screenFlag, file, setScreenFlag, varn } = useContext(ModalContext);
 
@@ -35,6 +35,7 @@ const General = () => {
         break;
         case "docs":
           setScreenFlag(1);
+          StepBack();
         break;
       case "vars":
           setScreenFlag(2);
